@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Json Table</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    table,th,td{
+        padding: 5px;
+        row-gap: 1;
+        overflow: hidden;
+    }
+    th{
+       
+        border-bottom: solid rgb(173, 173, 173) 1px;
+        box-shadow: none;
+        color : gray;
+        text-transform:uppercase;
+    }
+    td{
+        border-bottom: solid rgb(173, 173, 173) 1px;
+    }
+    th:nth-child(even){
+        background-color: rgba(235, 233, 233, 0.377);
+    }
+    tr td:nth-child(even){
+        background-color: rgba(235, 233, 233, 0.377);
+        color : gray;
+    }
+</style>
+</head>
+
+<body>
+    <p id="jsTable"></p>
+
+    <script>
+        function jsonTable() {   
+
+            let http = new XMLHttpRequest();             
+            let url = "index.json";                       
+            http.onreadystatechange = function () {
+
+                if (this.readyState == 4 && this.status == 200) {
+                     
+                    let result = JSON.parse(http.responseText)
+                   
+
+
+
+                    let col = []; 
+                    for (let i = 0; i < result.length; i++) {
+                        for (let r in result[i]) {
+                            if (col.indexOf(r) === -1) {
+                               
+                                col.push(r);
+                            }
+                        }
+                    }
+                   
+                    let table = document.createElement("table");
+
+
+                    let tr = table.insertRow(-1);                   // TABLE ROW.
+
+                    for (let i = 0; i < col.length; i++) {
+                        let th = document.createElement("th");      // TABLE HEADER.
+                        th.innerHTML = col[i];
+                        tr.appendChild(th);
+                    }
+                   
+                    for (let i = 0; i < result.length; i++) {
+
+                        tr = table.insertRow(-1);
+
+                        for (let j = 0; j < col.length; j++) {
+                            let unit = tr.insertCell(-1);
+                            unit.innerHTML = result[i][col[j]];
+                        }
+                    }
+                    let outcome = document.getElementById("jsTable");
+                    outcome.innerHTML = "";
+                    outcome.appendChild(table);
+
+                }
+            }
+            http.open("GET", url, true);
+            http.send();
+
+        }
+        jsonTable();
+
+    </script>
+    </div>
+
+</body>
+
+</html>
