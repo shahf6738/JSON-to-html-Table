@@ -50,14 +50,10 @@
 
 
                     let col = []; 
-                    for (let i = 0; i < result.length; i++) {
-                        for (let r in result[i]) {
-                            if (col.indexOf(r) === -1) {
-                               
+                    for (let r in result[0]) {                
+                             
                                 col.push(r);
                             }
-                        }
-                    }
                    
                     let table = document.createElement("table");
 
